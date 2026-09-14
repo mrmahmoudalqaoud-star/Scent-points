@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SCENT POINTS</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 7px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 17px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add {
+    background: #111;
+    color: white;
+}
+
+.search {
+    background: #eee;
+}
+
+.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 15px;
+    text-align: center;
+    display: none;
+}
+
+.points {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.reward {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fff3c4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>SCENT POINTS ⭐</h1>
+
+<div class="subtitle">
+نظام ولاء زبائن Scent Laundry
+</div>
+
+<label>📱 رقم تلفون الزبون</label>
+
+<input
+id="phone"
+type="tel"
+placeholder="07XXXXXXXX"
+>
+
+<label>💰 قيمة الفاتورة</label>
+
+<input
+id="amount"
+type="number"
+step="0.01"
+placeholder="مثال: 7.50"
+>
+
+<button class="add" onclick="addPoints()">
+➕ إضافة النقاط
+</button>
+
+<button class="search" onclick="checkPoints()">
+🔎 عرض رصيد الزبون
+</button>
+
+<div id="result" class="result">
+
+<div>الرصيد الحالي</div>
+
+<div id="balance" class="points">
+0
+</div>
+
+<div>⭐ نقطة</div>
+
+<div id="reward" class="reward"></div>
+
+<button
+id="whatsapp"
+class="whatsapp"
+onclick="sendWhatsApp()"
+>
+📲 إرسال واتساب
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const DATABASE_KEY = "SCENT_POINTS_DATABASE";
+
+function getDatabase() {
+
+    return JSON.parse(
+        localStorage.getItem(DATABASE_KEY) || "{}"
+    );
+
+}
+
+function saveDatabase(database) {
+
+    localStorage.setItem(
+        DATABASE_KEY,
+        JSON.stringify(database)
+    );
+
+}
+
+function cleanPhone(phone) {
+
+    return phone.replace(/\D/g, "");
+
+}
+
+function showResult(phone, addedPoints = 0) {
+
+    const database = getDatabase();
+
+    const balance = database[phone] || 0;
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("balance").innerText = balance;
+
+    const reward = document.getElementById("reward");
+
+    if (balance >= 25) {
+
+        reward.innerHTML =
+        "🎁 <b>مبروك!</b><br>" +
+        "الزبون وصل 25 نقطة ويستحق أي خدمة مجانية.";
+
+    } else {
+
+        reward.innerHTML =
+        "باقي <b>" +
+        (25 - balance) +
+        "</b> نقطة للمكافأة 🎁";
+
+    }
+
+}
+
+function addPoints() {
+
+    const phone =
+        cleanPhone(
+            document.getElementById("phone").value
+        );
+
+    const amount =
+        parseFloat(
+            document.getElementById("amount").value
+        );
+
+    if (phone.length < 9) {
+
+        alert("أدخل رقم تلفون صحيح");
+
+        return;
+
+    }
+
+    if (!amount || amount < 0) {
+
+        alert("أدخل قيمة الفاتورة");
+
+        return;
+
+    }
+
+    // كل دينار كامل = نقطة
+    const points =
+        Math.floor(amount);
+
+    const database =
+        getDatabase();
+
+    database[phone] =
+        (database[phone] || 0) + points;
+
+    saveDatabase(database);
+
+    showResult(phone, points);
+
+    alert(
+        "تمت إضافة " +
+        points +
+        " نقطة ⭐"
+    );
+
+}
+
+function checkPoints() {
+
+    const phone =
+        cleanPhone(
+            document.getElementById("phone").value
+        );
+
+    if (phone.length < 9) {
+
+        alert("أدخل رقم تلفون صحيح");
+
+        return;
+
+    }
+
+    showResult(phone);
+
+}
+
+function sendWhatsApp() {
+
+    const phone =
+        cleanPhone(
+            document.getElementById("phone").value
+        );
+
+    const database =
+        getDatabase();
+
+    const balance =
+        database[phone] || 0;
+
+    let message;
+
+    if (balance >= 25) {
+
+        message =
+        "🎉 مبروك من Scent Laundry!%0A%0A" +
+        "رصيدك الحالي: " +
+        balance +
+        " نقطة ⭐%0A%0A" +
+        "🎁 وصلت إلى 25 نقطة، " +
+        "وإلك أي خدمة تختارها مجانًا.%0A%0A" +
+        "شكرًا لثقتك فينا ❤️";
+
+    } else {
+
+        message =
+        "🎉 Scent Laundry%0A%0A" +
+        "رصيدك الحالي: " +
+        balance +
+        " نقطة ⭐%0A%0A" +
+        "باقي " +
+        (25 - balance) +
+        " نقطة لتحصل على أي خدمة مجانية 🎁%0A%0A" +
+        "شكرًا لثقتك فينا ❤️";
+
+    }
+
+    window.open(
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
