@@ -1,135 +1,179 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SCENT POINTS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCENT POINTS</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+  margin:0;
+  padding:20px;
+}
 
-    .box {
-      max-width: 500px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.1);
-    }
+.box {
+  max-width:500px;
+  margin:20px auto;
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 5px;
-    }
+h1 {
+  text-align:center;
+  margin-bottom:5px;
+}
 
-    .sub {
-      text-align: center;
-      color: #777;
-      margin-bottom: 25px;
-    }
+.sub {
+  text-align:center;
+  color:#777;
+  margin-bottom:25px;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
+label {
+  display:block;
+  margin-top:15px;
+  margin-bottom:6px;
+  font-weight:bold;
+}
 
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 17px;
-    }
+input {
+  width:100%;
+  box-sizing:border-box;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:17px;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: #111;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-    }
+button {
+  width:100%;
+  margin-top:15px;
+  padding:15px;
+  border:0;
+  border-radius:10px;
+  background:#111;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
 
-    .result {
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 12px;
-      background: #f1f1f1;
-      text-align: center;
-      display: none;
-    }
+.check {
+  background:#555;
+}
 
-    .points {
-      font-size: 38px;
-      font-weight: bold;
-    }
+.reward {
+  background:#d4a017;
+}
 
-    .success {
-      color: green;
-      font-weight: bold;
-    }
+.whatsapp {
+  display:block;
+  margin-top:15px;
+  padding:15px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+}
 
-    .error {
-      color: red;
-      font-weight: bold;
-    }
+.result {
+  margin-top:20px;
+  padding:20px;
+  border-radius:12px;
+  background:#f1f1f1;
+  text-align:center;
+  display:none;
+}
 
-    .whatsapp {
-      display: block;
-      margin-top: 18px;
-      padding: 15px;
-      background: #25D366;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
+.points {
+  font-size:42px;
+  font-weight:bold;
+}
+
+.success {
+  color:green;
+  font-weight:bold;
+}
+
+.error {
+  color:red;
+  font-weight:bold;
+}
+
+hr {
+  border:0;
+  border-top:1px solid #ddd;
+  margin:20px 0;
+}
+</style>
 </head>
 
 <body>
 
 <div class="box">
 
-  <h1>SCENT POINTS</h1>
-  <div class="sub">نظام نقاط عملاء Scent Laundry</div>
+<h1>SCENT POINTS</h1>
 
-  <label>رقم هاتف العميل</label>
+<div class="sub">
+نظام نقاط عملاء Scent Laundry
+</div>
 
-  <input
-    id="phone"
-    type="tel"
-    placeholder="مثال: 0795942926"
-  >
 
-  <label>قيمة الفاتورة بالدينار</label>
+<!-- إضافة نقاط -->
 
-  <input
-    id="amount"
-    type="number"
-    step="0.01"
-    placeholder="مثال: 7.50"
-  >
+<label>رقم هاتف العميل</label>
 
-  <button onclick="addPoints()">
-    إضافة النقاط
-  </button>
+<input
+  id="phone"
+  type="tel"
+  placeholder="مثال: 0795942926"
+>
 
-  <div id="result" class="result"></div>
+
+<label>قيمة الفاتورة بالدينار</label>
+
+<input
+  id="amount"
+  type="number"
+  step="0.01"
+  placeholder="مثال: 7.50"
+>
+
+
+<button onclick="addPoints()">
+⭐ إضافة النقاط
+</button>
+
+
+<!-- فحص الرصيد -->
+
+<hr>
+
+<h3>🔎 فحص رصيد العميل</h3>
+
+<input
+  id="checkPhone"
+  type="tel"
+  placeholder="رقم العميل"
+/>
+
+<button
+  class="check"
+  onclick="checkPoints()"
+>
+🔎 فحص الرصيد
+</button>
+
+
+<div id="result" class="result"></div>
 
 </div>
 
@@ -137,21 +181,41 @@
 <script>
 
 const SUPABASE_URL =
-  "https://lmygnqamyvrahygjswiv.supabase.co";
+"https://lmygnqamyvrahygjswiv.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_1wVVVVV37dHaDB8hF4YtYQ_-BWLuinR";
+"sb_publishable_1wVVVVV37dHaDB8hF4YtYQ_-BWLuinR";
 
 const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
+
+/* تحويل الرقم الأردني */
+
+function normalizePhone(phone) {
+
+  phone = phone.replace(/\D/g,"");
+
+  if (phone.startsWith("0")) {
+    return "962" + phone.substring(1);
+  }
+
+  if (phone.startsWith("962")) {
+    return phone;
+  }
+
+  return "962" + phone;
+}
+
+
+/* إضافة النقاط */
 
 async function addPoints() {
 
-  const phoneInput =
+  const phone =
     document.getElementById("phone").value.trim();
 
   const amount =
@@ -162,14 +226,15 @@ async function addPoints() {
   const result =
     document.getElementById("result");
 
+
   result.style.display = "block";
   result.innerHTML = "";
 
 
-  if (!phoneInput) {
+  if (!phone) {
 
     result.innerHTML =
-      '<div class="error">اكتب رقم هاتف العميل</div>';
+    '<div class="error">اكتب رقم هاتف العميل</div>';
 
     return;
   }
@@ -178,13 +243,12 @@ async function addPoints() {
   if (!amount || amount <= 0) {
 
     result.innerHTML =
-      '<div class="error">اكتب قيمة الفاتورة</div>';
+    '<div class="error">اكتب قيمة الفاتورة</div>';
 
     return;
   }
 
 
-  // كل دينار كامل = نقطة
   const pointsToAdd =
     Math.floor(amount);
 
@@ -192,7 +256,7 @@ async function addPoints() {
   if (pointsToAdd < 1) {
 
     result.innerHTML =
-      '<div class="error">الفاتورة أقل من دينار، ما بتنضاف نقاط</div>';
+    '<div class="error">الفاتورة أقل من دينار، ما بتنضاف نقاط</div>';
 
     return;
   }
@@ -200,126 +264,99 @@ async function addPoints() {
 
   try {
 
-    // البحث عن العميل
     const { data: customer, error: searchError } =
       await supabaseClient
-        .from("customers")
-        .select("*")
-        .eq("phone", phoneInput)
-        .maybeSingle();
+      .from("customers")
+      .select("*")
+      .eq("phone",phone)
+      .maybeSingle();
 
 
-    if (searchError) {
+    if (searchError)
       throw searchError;
-    }
 
 
     let newPoints =
       pointsToAdd;
 
 
-    // العميل موجود
     if (customer) {
 
       newPoints =
         (customer.points || 0) + pointsToAdd;
 
 
-      const { error: updateError } =
+      const { error } =
         await supabaseClient
-          .from("customers")
-          .update({
-            points: newPoints
-          })
-          .eq("phone", phoneInput);
+        .from("customers")
+        .update({
+          points:newPoints
+        })
+        .eq("phone",phone);
 
 
-      if (updateError) {
-        throw updateError;
-      }
+      if (error)
+        throw error;
 
-    }
+    } else {
 
-
-    // العميل جديد
-    else {
-
-      const { error: insertError } =
+      const { error } =
         await supabaseClient
-          .from("customers")
-          .insert({
-            phone: phoneInput,
-            points: pointsToAdd
-          });
-
-
-      if (insertError) {
-        throw insertError;
-      }
-
-    }
-
-
-    // تسجيل الفاتورة
-    const { error: transactionError } =
-      await supabaseClient
-        .from("transactions")
+        .from("customers")
         .insert({
-          phone: phoneInput,
-          amount: amount,
-          points_added: pointsToAdd
+          phone:phone,
+          points:pointsToAdd
         });
 
 
-    if (transactionError) {
-      throw transactionError;
+      if (error)
+        throw error;
     }
 
 
-    // النتيجة
+    /* تسجيل الفاتورة */
+
+    const { error: transactionError } =
+      await supabaseClient
+      .from("transactions")
+      .insert({
+        phone:phone,
+        amount:amount,
+        points_added:pointsToAdd
+      });
+
+
+    if (transactionError)
+      throw transactionError;
+
+
     result.innerHTML = `
 
       <div class="success">
-        تمت إضافة النقاط بنجاح ✅
+      تمت إضافة النقاط بنجاح ✅
       </div>
 
       <p>
-        تمت إضافة
-        <strong>${pointsToAdd}</strong>
-        نقطة ⭐
+      تمت إضافة
+      <strong>${pointsToAdd}</strong>
+      نقطة ⭐
       </p>
 
       <div class="points">
-        ${newPoints}
+      ${newPoints}
       </div>
 
       <p>
-        نقطة في رصيد العميل
+      نقطة في رصيد العميل
       </p>
 
     `;
 
 
-    // رسالة واتساب
-    let whatsappNumber =
-      phoneInput.replace(/\D/g, "");
+    /* واتساب */
 
-
-    // تحويل 079xxxxxxx إلى 96279xxxxxxx
-    if (whatsappNumber.startsWith("0")) {
-
-      whatsappNumber =
-        "962" + whatsappNumber.substring(1);
-
-    }
-
-    // إذا كتب 962 أصلاً، نخليه كما هو
-    else if (!whatsappNumber.startsWith("962")) {
-
-      whatsappNumber =
-        "962" + whatsappNumber;
-
-    }
+    const whatsappNumber =
+      normalizePhone(phone);
 
 
     let message;
@@ -327,7 +364,8 @@ async function addPoints() {
 
     if (newPoints >= 25) {
 
-      message = `🎉 Scent Laundry
+      message =
+`🎉 Scent Laundry
 
 تمت إضافة ${pointsToAdd} نقطة ⭐
 
@@ -335,22 +373,23 @@ async function addPoints() {
 ${newPoints} نقطة
 
 🎁 مبروك!
-وصلت إلى 25 نقطة، وإلك أي خدمة من Scent Laundry مجانًا ❤️
+أصبحت مستحقًا لمكافأة 25 نقطة.
+
+إلك أي خدمة من Scent Laundry مجانًا ❤️
 
 شكراً لثقتك فينا 🙏`;
 
-    }
+    } else {
 
-    else {
-
-      message = `🎉 Scent Laundry
+      message =
+`🎉 Scent Laundry
 
 تمت إضافة ${pointsToAdd} نقطة ⭐
 
 رصيدك الحالي:
 ${newPoints} نقطة
 
-باقي لك ${25 - newPoints} نقطة للوصول إلى مكافأتك 🎁
+باقي لك ${25-newPoints} نقطة للوصول للمكافأة 🎁
 
 شكراً لثقتك فينا ❤️`;
 
@@ -371,62 +410,320 @@ ${newPoints} نقطة
         href="${whatsappLink}"
         target="_blank"
       >
-        📱 إرسال رسالة واتساب
+      📱 إرسال رسالة واتساب
       </a>
 
     `;
 
 
-    // تنبيه الوصول إلى 25
-    if (newPoints >= 25) {
+    document.getElementById("amount").value = "";
 
-      result.innerHTML += `
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    result.innerHTML = `
+
+      <div class="error">
+      صار خطأ أثناء إضافة النقاط ❌
+      </div>
+
+      <small>
+      ${error.message || ""}
+      </small>
+
+    `;
+  }
+
+}
+
+
+/* فحص النقاط */
+
+async function checkPoints() {
+
+  const phone =
+    document.getElementById("checkPhone")
+    .value.trim();
+
+  const result =
+    document.getElementById("result");
+
+
+  result.style.display = "block";
+  result.innerHTML = "";
+
+
+  if (!phone) {
+
+    result.innerHTML =
+    '<div class="error">اكتب رقم العميل</div>';
+
+    return;
+  }
+
+
+  try {
+
+    const { data: customer, error } =
+      await supabaseClient
+      .from("customers")
+      .select("*")
+      .eq("phone",phone)
+      .maybeSingle();
+
+
+    if (error)
+      throw error;
+
+
+    if (!customer) {
+
+      result.innerHTML = `
+
+        <div class="error">
+        العميل غير موجود ❌
+        </div>
+
+      `;
+
+      return;
+    }
+
+
+    const points =
+      customer.points || 0;
+
+
+    let html = `
+
+      <div>
+      📱 رقم العميل
+      </div>
+
+      <strong>
+      ${phone}
+      </strong>
+
+      <hr>
+
+      <div>
+      ⭐ رصيد النقاط
+      </div>
+
+      <div class="points">
+      ${points}
+      </div>
+
+    `;
+
+
+    if (points >= 25) {
+
+      html += `
 
         <hr>
 
         <div class="success">
 
-          🎉 العميل وصل إلى 25 نقطة!
+        🎉 العميل مستحق للمكافأة!
 
-          <br><br>
+        <br><br>
 
-          🎁 إله أي خدمة من
-          Scent Laundry
-          مجانًا
+        🎁 أي خدمة من Scent Laundry مجانًا
 
         </div>
+
+        <button
+          class="reward"
+          onclick="useReward('${phone}',${points})"
+        >
+        🎁 استخدام المكافأة — خصم 25 نقطة
+        </button>
+
+      `;
+
+    } else {
+
+      html += `
+
+        <p>
+        باقي
+        <strong>${25-points}</strong>
+        نقطة للمكافأة 🎁
+        </p>
 
       `;
 
     }
 
 
-    // تفريغ الفاتورة
-    document.getElementById("amount").value = "";
+    result.innerHTML = html;
 
 
   }
 
-  catch (error) {
-
-    console.error(error);
-
+  catch(error) {
 
     result.innerHTML = `
 
       <div class="error">
-
-        صار خطأ أثناء إضافة النقاط ❌
-
+      صار خطأ أثناء فحص الرصيد ❌
       </div>
 
       <small>
-
-        ${error.message || ""}
-
+      ${error.message || ""}
       </small>
 
     `;
+  }
+
+}
+
+
+/* استخدام المكافأة */
+
+async function useReward(phone,currentPoints) {
+
+  if (currentPoints < 25) {
+
+    alert("العميل لا يملك 25 نقطة");
+
+    return;
+  }
+
+
+  const confirmUse =
+    confirm(
+      "هل تم استخدام المكافأة فعلًا؟\n\nسيتم خصم 25 نقطة."
+    );
+
+
+  if (!confirmUse)
+    return;
+
+
+  try {
+
+    const newPoints =
+      currentPoints - 25;
+
+
+    /* تحديث الرصيد */
+
+    const { error: updateError } =
+      await supabaseClient
+      .from("customers")
+      .update({
+        points:newPoints
+      })
+      .eq("phone",phone);
+
+
+    if (updateError)
+      throw updateError;
+
+
+    /* تسجيل استخدام المكافأة */
+
+    const { error: rewardError } =
+      await supabaseClient
+      .from("rewards")
+      .insert({
+        phone:phone,
+        points_used:25
+      });
+
+
+    if (rewardError)
+      throw rewardError;
+
+
+    const result =
+      document.getElementById("result");
+
+
+    result.innerHTML = `
+
+      <div class="success">
+
+      🎉 تم استخدام المكافأة بنجاح!
+
+      <br><br>
+
+      تم خصم 25 نقطة 🎁
+
+      </div>
+
+      <hr>
+
+      <div>
+      الرصيد الجديد
+      </div>
+
+      <div class="points">
+      ${newPoints}
+      </div>
+
+      <p>
+      نقطة
+      </p>
+
+    `;
+
+
+    /* واتساب */
+
+    const whatsappNumber =
+      normalizePhone(phone);
+
+
+    const message =
+`🎁 Scent Laundry
+
+تم استخدام مكافأتك بنجاح.
+
+تم خصم 25 نقطة ⭐
+
+رصيدك الحالي:
+${newPoints} نقطة
+
+شكراً لثقتك في Scent Laundry ❤️`;
+
+
+    const whatsappLink =
+      "https://wa.me/" +
+      whatsappNumber +
+      "?text=" +
+      encodeURIComponent(message);
+
+
+    result.innerHTML += `
+
+      <a
+        class="whatsapp"
+        href="${whatsappLink}"
+        target="_blank"
+      >
+      📱 إرسال تأكيد واتساب
+      </a>
+
+    `;
+
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    alert(
+      "صار خطأ: " +
+      (error.message || "")
+    );
 
   }
 
